@@ -21,11 +21,11 @@ def ping(host, port):
          message = "Ping " + str(seq) + " " + str(start_time)
          UDPClientSocket.sendto(message.encode(), server_addr)
          data, server = UDPClientSocket.recvfrom(4096)
-         resps.append(data.decode())
+         resps.append((seq,data.decode(),float(data.decode().split()[3]) - float(data.decode().split()[2])))
          # Fill in end
-         print(resps)
         except timeout:
-         print("Ping " + str(seq) + " request timed out")
+            resps.append((seq,"Request timed out",0))
+            print("Ping " + str(seq) + " request timed out")
 
     return resps
 
